@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeLingo - Aprenda Programação em Inglês</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <header class="nav-header">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h1>DEIGOR</h1>
+            </div>
+            <div class="nav-stats">
+                <div class="stat-item">
+                    <span class="stat-label">Nível</span>
+                    <span class="stat-value" id="user-level">1</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">XP</span>
+                    <span class="stat-value" id="user-xp">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Streak</span>
+                    <span class="stat-value" id="user-streak">0</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="main-container">
+        <!-- Home Screen -->
+        <div id="home-screen" class="screen active">
+            <div class="hero-section">
+                <h2 class="hero-title">Domine Programação em Inglês</h2>
+                <p class="hero-subtitle">Aprenda vocabulário técnico com mais de 50.000 termos, exemplos práticos e tradução interativa</p>
+            </div>
+
+            <!-- Game Mode Selector -->
+            <div class="game-modes">
+                <h3>Escolha seu Modo de Jogo</h3>
+                <div class="mode-grid">
+                    <button class="mode-card" onclick="startQuiz()">
+                        <div class="mode-icon">🧠</div>
+                        <h4>Quiz</h4>
+                        <p>Teste seus conhecimentos com perguntas de múltipla escolha</p>
+                    </button>
+                    <button class="mode-card" onclick="startFlashcards()">
+                        <div class="mode-icon">📚</div>
+                        <h4>Flashcards</h4>
+                        <p>Memorize termos com cartões interativos</p>
+                    </button>
+                    <button class="mode-card" onclick="openDictionary()">
+                        <div class="mode-icon">📖</div>
+                        <h4>Dicionário</h4>
+                        <p>Explore vocabulário e exemplos de código</p>
+                    </button>
+                    <button class="mode-card" onclick="openProfile()">
+                        <div class="mode-icon">👤</div>
+                        <h4>Perfil</h4>
+                        <p>Veja seu progresso e conquistas</p>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Daily Challenge -->
+            <div class="daily-challenge">
+                <h3>Desafio Diário</h3>
+                <div class="challenge-card">
+                    <div class="challenge-info">
+                        <h4 id="daily-challenge-title">Carregando...</h4>
+                        <p id="daily-challenge-desc">Carregando desafio...</p>
+                        <div class="challenge-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="daily-progress"></div>
+                            </div>
+                            <span id="daily-progress-text">0/10</span>
+                        </div>
+                    </div>
+                    <button class="challenge-btn" onclick="startDailyChallenge()">Começar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div id="quiz-screen" class="screen">
+            <div class="quiz-header">
+                <button class="back-btn" onclick="goHome()">← Voltar</button>
+                <div class="quiz-progress">
+                    <span id="quiz-question-count">1/10</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="quiz-progress"></div>
+                    </div>
+                </div>
+                <div class="quiz-timer" id="quiz-timer">30s</div>
+            </div>
+
+            <div class="quiz-content">
+                <div class="question-card">
+                    <h3 id="quiz-question">Carregando pergunta...</h3>
+                    <div class="quiz-options" id="quiz-options">
+                        <!-- Options will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Flashcards Screen -->
+        <div id="flashcards-screen" class="screen">
+            <div class="flashcards-header">
+                <button class="back-btn" onclick="goHome()">← Voltar</button>
+                <div class="flashcard-counter">
+                    <span id="flashcard-count">1/20</span>
+                </div>
+            </div>
+
+            <div class="flashcard-container">
+                <div class="flashcard" id="flashcard" onclick="flipCard()">
+                    <div class="flashcard-front">
+                        <div class="term" id="flashcard-term">Carregando...</div>
+                        <div class="category" id="flashcard-category">Categoria</div>
+                    </div>
+                    <div class="flashcard-back">
+                        <div class="translation" id="flashcard-translation">Tradução</div>
+                        <div class="example" id="flashcard-example">Exemplo de código</div>
+                        <button class="audio-btn" onclick="playAudio()" id="audio-btn">🔊</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flashcard-controls">
+                <button class="control-btn difficulty-btn hard" onclick="markDifficulty('hard')">Difícil</button>
+                <button class="control-btn difficulty-btn medium" onclick="markDifficulty('medium')">Médio</button>
+                <button class="control-btn difficulty-btn easy" onclick="markDifficulty('easy')">Fácil</button>
+            </div>
+        </div>
+
+        <!-- Dictionary Screen -->
+        <div id="dictionary-screen" class="screen">
+            <div class="dictionary-header">
+                <button class="back-btn" onclick="goHome()">← Voltar</button>
+                <h2>Dicionário de Programação</h2>
+            </div>
+
+            <div class="search-section">
+                <div class="search-bar">
+                    <input type="text" id="search-input" placeholder="Buscar termos..." oninput="searchTerms()">
+                    <button class="search-btn">🔍</button>
+                </div>
+                <div class="filters">
+                    <select id="category-filter" onchange="filterTerms()">
+                        <option value="">Todas as Categorias</option>
+                        <option value="javascript">JavaScript</option>
+                        <option value="python">Python</option>
+                        <option value="web">Desenvolvimento Web</option>
+                        <option value="database">Banco de Dados</option>
+                        <option value="general">Geral</option>
+                    </select>
+                    <select id="difficulty-filter" onchange="filterTerms()">
+                        <option value="">Todas as Dificuldades</option>
+                        <option value="beginner">Iniciante</option>
+                        <option value="intermediate">Intermediário</option>
+                        <option value="advanced">Avançado</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="dictionary-content">
+                <div class="terms-list" id="terms-list">
+                    <!-- Terms will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Screen -->
+        <div id="profile-screen" class="screen">
+            <div class="profile-header">
+                <button class="back-btn" onclick="goHome()">← Voltar</button>
+                <h2>Seu Perfil</h2>
+            </div>
+
+            <div class="profile-content">
+                <div class="profile-stats">
+                    <div class="stat-card">
+                        <h3>Nível</h3>
+                        <div class="stat-value" id="profile-level">1</div>
+                        <div class="level-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="level-progress"></div>
+                            </div>
+                            <span id="level-progress-text">0/100 XP</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Total XP</h3>
+                        <div class="stat-value" id="profile-xp">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Streak Atual</h3>
+                        <div class="stat-value" id="profile-streak">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Termos Aprendidos</h3>
+                        <div class="stat-value" id="profile-terms">0</div>
+                    </div>
+                </div>
+
+                <div class="achievements-section">
+                    <h3>Conquistas</h3>
+                    <div class="achievements-grid" id="achievements-grid">
+                        <!-- Achievements will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <div class="leaderboard-section">
+                    <h3>Ranking Global</h3>
+                    <div class="leaderboard" id="leaderboard">
+                        <!-- Leaderboard will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="results-screen" class="screen">
+            <div class="results-content">
+                <h2>Resultados do Quiz</h2>
+                <div class="results-stats">
+                    <div class="result-stat">
+                        <span class="result-label">Pontuação</span>
+                        <span class="result-value" id="final-score">0/10</span>
+                    </div>
+                    <div class="result-stat">
+                        <span class="result-label">Precisão</span>
+                        <span class="result-value" id="final-accuracy">0%</span>
+                    </div>
+                    <div class="result-stat">
+                        <span class="result-label">XP Ganho</span>
+                        <span class="result-value" id="xp-gained">+0</span>
+                    </div>
+                </div>
+                <div class="results-actions">
+                    <button class="btn-primary" onclick="startQuiz()">Jogar Novamente</button>
+                    <button class="btn-secondary" onclick="goHome()">Voltar ao Menu</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Audio element for pronunciation -->
+    <audio id="audio-player" preload="none"></audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
